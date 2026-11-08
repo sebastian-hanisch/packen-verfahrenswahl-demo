@@ -1,7 +1,6 @@
 # Verfahrenswahl: welches Packverfahren wann? – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-packen-verfahrenswahl-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-packen-verfahrenswahl-demo.streamlit.app/)**
 
 Stück 13, der Abschluss der Konzepte-Reihe **„Packen: Reihenfolge und Platzierungsregel“** für die Website „Sebastian Hanisch – Operations Research und Machine Learning“ (ein Verfahren mit wachsendem Beispiel: eine Packung entsteht aus einer Reihenfolge der Teile und einer Regel, wohin das nächste kommt). Die Stücke davor haben Verfahren zum Packen in 1D, 2D und 3D gebaut und einzeln gemessen; diese Demo stellt sie auf **eine Karte**: Für vier Bereiche (Pakete mit einer Größe, Rechtecke, Quader ohne und mit Stützfläche) und vier Mischungen der Teilegrößen zeigt sie, welches Verfahren im Mittel am wenigsten Behälter braucht, was man verliert, wenn man immer dasselbe Verfahren nimmt, und wo sich die Rangfolge dreht. Alle Zahlen sind für diese Demo selbst gemessen.
 
