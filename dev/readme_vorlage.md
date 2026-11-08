@@ -25,22 +25,22 @@ Alle Zahlen sind Messungen an den Instanzen dieser Demo (feste Seeds), nachgerec
 | Frage | Befund |
 |---|---|
 | Handbeispiele | 1D: NF, FF, BF **7** Behälter, FFD und BFD **5** (Optimum 5). 2D: Regal **4**, Skyline, MaxRects und die Suche **3** (Optimum 3). 3D: Schichten und EP einfach **2**, EP voll **1** (Optimum 1) |
-| 1D: Wer gewinnt? | **FFD und BFD in allen 16 Zellen** (in 14 gleichauf, in zwei, breit bei n = 20 und n = 200, BFD allein mit 0,01 Vorsprung). Sortieren ist hier alles: Regret FFD und BFD **0,00**, First Fit 1,73, Best Fit 1,33, Next Fit **8,50** |
-| 1D: FFD gegen BFD | Sie unterscheiden sich in höchstens **4 von 3200** Instanzen (FFD braucht in höchstens 3 einen Behälter mehr, BFD in höchstens 1) |
+| 1D: Wer gewinnt? | **FFD und BFD in allen 16 Zellen** (in 14 gleichauf, in zwei, breit bei n = 20 und n = 200, BFD allein mit 0,01 Vorsprung). Sortieren bringt hier den größten Gewinn: Regret FFD und BFD unter 0,01 (beste Instanzen 99,9 % und 100 %, gerundet), First Fit 1,73, Best Fit 1,33, Next Fit **8,50** (alle drei in Lieferreihenfolge); sortiert ist die Regel fast egal |
+| 1D: FFD gegen BFD | Sie unterscheiden sich in **2 von 3200** Instanzen (FFD braucht dann einen Behälter mehr als BFD) |
 | 2D: Wer gewinnt? | **MaxRects mit Tausch-Suche in allen 12 Zellen**, in 99 bis 100 % der Instanzen gehört sie zu den besten; Vorsprung gegenüber MaxRects ohne Suche 0,01 bis 0,46 Behälter. Sie braucht 200 Auswertungen statt einer |
 | 2D: Ein Verfahren mit einer Auswertung | **MaxRects** (Regret 0,20) vor Regal (0,34) und Skyline (0,39) |
 | 2D: Dreht sich die Rangfolge? | **Ja, bei den einfachen Verfahren:** Regal ist besser als Skyline in 5 Zellen, schlechter in 6, gleich gut in 1; Regal ist besser als MaxRects in 1 Zelle, schlechter in 9, gleich gut in 2 |
 | 3D: Wer gewinnt? | **Extreme Points mit Projektionen** in 10 Zellen allein, in zwei gleichauf (kleine Quader: bei n = 20 alle drei, bei n = 80 mit EP einfach). Regret EP voll **0,02**, EP einfach 0,20, Schichten **0,72** |
 | 3D: Dreht sich die Rangfolge? | Nur bei den unterlegenen Verfahren: Schichten sind besser als EP einfach in **1** Zelle (flache Quader, n = 20: 0,89 gegen 1,01), schlechter in 10, gleich gut in 1 |
-| 3D mit Stützfläche: Wer gewinnt? | **Extreme Points mit der Grundfläche als Schlüssel in allen 12 Zellen** (Regret **0,06**, Volumen 0,59, Höhe 1,11); flache Quader bei n = 80: Grundfläche 4,02, Volumen 6,20, Höhe 7,01 |
-| Ändert die Stützbedingung die Wahl? | **Ja:** Ohne Bedingung gewinnt Extreme Points mit Projektionen nach Volumen (in allen 12 Zellen unter den Gewinnern), mit 80 % Stützfläche in allen 12 Zellen die Grundfläche. Die Bedingung kostet im jeweils besten Verfahren **0,02 bis 1,83** Behälter über der Schranke (am meisten bei flachen Quadern) |
-| Gilt „ein Verfahren für alles“? | In jedem Bereich gewinnt dasselbe Verfahren (oder gleichauf) in allen Zellen: **der Gewinner dreht sich nirgends**; wo sich etwas dreht, sind es die Plätze dahinter. Die Wahl hängt vom Bereich ab, nicht von der Mischung |
+| 3D mit Stützfläche: Wer gewinnt? | **Extreme Points mit der Grundfläche als Schlüssel in allen 12 Zellen im Mittel vorn** (Regret **0,06**, Volumen 0,59, Höhe 1,11); flache Quader bei n = 80: Grundfläche 4,02, Volumen 6,20, Höhe 7,01. In vier Zellen (mittlere Quader bei n = 20, 40 und 80, kleine Quader bei n = 40) liegt der Vorsprung vor dem Volumen innerhalb der Streuung |
+| Ändert die Stützbedingung die Wahl? | **Ja:** Ohne Bedingung gewinnt Extreme Points mit Projektionen nach Volumen (in allen 12 Zellen unter den Gewinnern), mit 80 % Stützfläche in allen 12 Zellen im Mittel die Grundfläche. Der Schlüssel Grundfläche ist ohne Bedingung in der Karte nicht gemessen; in einer einmaligen Nachmessung außerhalb der Demo liegt dort das Volumen vorn. Die Bedingung kostet im jeweils besten Verfahren **0,33 bis 1,83** Behälter über der Schranke (am meisten bei flachen Quadern); bei kleinen Quadern mit n = 20 sind es nur +0,02, nicht von null zu trennen. Es sind Differenzen zweier getrennter Stichproben mit je 100 Instanzen |
+| Gilt „ein Verfahren für alles“? | In jedem Bereich gewinnt im gerundeten Mittel dasselbe Verfahren (oder gleichauf) in allen Zellen: **der Gewinner dreht sich nirgends**; wo sich etwas dreht, sind es die Plätze dahinter. Die Wahl hängt in dieser Karte vom Bereich ab, nicht von den vier gemessenen Mischungen |
 
 **Die Handbeispiele** (Behälter je Verfahren; die Schranke ist beim 3D-Bereich mit Stützfläche ohne Bedingung berechnet, das Optimum ebenfalls):
 
 {{BEISPIELE}}
 
-**Regret und Anteil bester Instanzen** (über alle Zellen des Bereichs; Regret: Behälter mehr als das instanzweise Beste des Bereichs):
+**Regret und Anteil bester Instanzen** (über alle Zellen des Bereichs; Regret: Behälter mehr als das instanzweise Beste des Bereichs; Prozentwerte gerundet, 100 % kann knapp darunter liegen):
 
 {{REGRET}}
 
@@ -56,7 +56,7 @@ Alle Zahlen sind Messungen an den Instanzen dieser Demo (feste Seeds), nachgerec
 
 {{KARTE_3D}}
 
-**Karte 3D mit 80 % Stützfläche** (dieselben Quader; die Verfahren sind drei Sortierschlüssel für Extreme Points mit Projektionen):
+**Karte 3D mit 80 % Stützfläche** (dieselben Verteilungen und Teilezahlen, aber eigene Zufallsinstanzen; die Verfahren sind drei Sortierschlüssel für Extreme Points mit Projektionen):
 
 {{KARTE_3DS}}
 

@@ -14,7 +14,7 @@ import pytest
 import pvw_algorithm as A
 import pvw_constants as C
 import pvw_evaluation as ev
-from pvw_scenario import beispiel
+from pvw_scenario import beispiel, mess_seed, zufallsinstanz
 
 ROOT = Path(__file__).resolve().parent.parent
 README = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -117,8 +117,25 @@ def test_1d_sortieren_ist_alles():
     assert all(round(ev.zeile(0, v, ni)["mittel"][3], 2) - round(ev.zeile(0, v, ni)["mittel"][4], 2) == pytest.approx(0.01) for v, ni in breit)
     d = ev.vorberechnet()["zellen"]
     assert (sum(d[ev.zelle_schluessel(0, v, ni)]["regret"][3] for v, ni in ev.zellen_von(0)), sum(d[ev.zelle_schluessel(0, v, ni)]["regret"][4] for v, ni in ev.zellen_von(0))) == (3, 1)
-    assert "**FFD und BFD in allen 16 Zellen** (in 14 gleichauf, in zwei, breit bei n = 20 und n = 200, BFD allein mit 0,01 Vorsprung). Sortieren ist hier alles: Regret FFD und BFD **0,00**, First Fit 1,73, Best Fit 1,33, Next Fit **8,50**" in README
-    assert "Sie unterscheiden sich in höchstens **4 von 3200** Instanzen (FFD braucht in höchstens 3 einen Behälter mehr, BFD in höchstens 1)" in README
+    # Regret FFD und BFD ungerundet: Summen 3 und 1 über 3200 Instanzen, also unter 0,01; beste Instanzen 3197 und 3199 von 3200 (99,9 % und 100 %)
+    summe_regret = [sum(d[ev.zelle_schluessel(0, v, ni)]["regret"][m] for v, ni in ev.zellen_von(0)) for m in (3, 4)]
+    summe_beste = [sum(d[ev.zelle_schluessel(0, v, ni)]["beste"][m] for v, ni in ev.zellen_von(0)) for m in (3, 4)]
+    assert all(s / 3200 < 0.01 for s in summe_regret) and [round(100 * s / 3200, 1) for s in summe_beste] == [99.9, 100.0]
+    assert "**FFD und BFD in allen 16 Zellen** (in 14 gleichauf, in zwei, breit bei n = 20 und n = 200, BFD allein mit 0,01 Vorsprung). Sortieren bringt hier den größten Gewinn: Regret FFD und BFD unter 0,01 (beste Instanzen 99,9 % und 100 %, gerundet), First Fit 1,73, Best Fit 1,33, Next Fit **8,50** (alle drei in Lieferreihenfolge); sortiert ist die Regel fast egal" in README
+    assert "Sie unterscheiden sich in **2 von 3200** Instanzen (FFD braucht dann einen Behälter mehr als BFD)" in README
+
+
+def test_1d_ffd_gegen_bfd_direkt_gezaehlt():
+    """Direkter Vergleich der Behälterzahlen je Instanz (nicht aus den Regretsummen abgeleitet): FFD braucht in 2 von 3200 Instanzen einen Behälter mehr als BFD, BFD nie mehr als FFD."""
+    ffd_mehr = bfd_mehr = gesamt = 0
+    for v, ni in ev.zellen_von(0):
+        for j in range(200):
+            inst = zufallsinstanz(0, v, C.MESS_N[0][ni], mess_seed(0, v, ni, j))
+            a, b = A.anzahl_1d(list(inst.teile), 3, inst.cap), A.anzahl_1d(list(inst.teile), 4, inst.cap)
+            gesamt += 1
+            ffd_mehr += a > b
+            bfd_mehr += b > a
+    assert (gesamt, ffd_mehr, bfd_mehr) == (3200, 2, 0)
 
 
 def test_2d_die_suche_gewinnt_und_die_einfachen_verfahren_drehen():
@@ -154,7 +171,7 @@ def test_3d_mit_stuetzflaeche_gewinnt_die_grundflaeche():
     assert [round(x, 2) for x in u["regret"]] == [0.59, 0.06, 1.11] and u["ein_verfahren"] == (1,)
     assert all(ev.zeile(3, v, ni)["gewinner"] == (1,) for v, ni in ev.zellen_von(3))
     assert [round(x, 2) for x in ev.zeile(3, 3, 2)["mittel"]] == [6.2, 4.02, 7.01]
-    assert "**Extreme Points mit der Grundfläche als Schlüssel in allen 12 Zellen** (Regret **0,06**, Volumen 0,59, Höhe 1,11); flache Quader bei n = 80: Grundfläche 4,02, Volumen 6,20, Höhe 7,01" in README
+    assert "**Extreme Points mit der Grundfläche als Schlüssel in allen 12 Zellen im Mittel vorn** (Regret **0,06**, Volumen 0,59, Höhe 1,11); flache Quader bei n = 80: Grundfläche 4,02, Volumen 6,20, Höhe 7,01. In vier Zellen (mittlere Quader bei n = 20, 40 und 80, kleine Quader bei n = 40) liegt der Vorsprung vor dem Volumen innerhalb der Streuung" in README
 
 
 def test_die_stuetzbedingung_aendert_die_wahl():
@@ -162,14 +179,19 @@ def test_die_stuetzbedingung_aendert_die_wahl():
     assert len(zeilen) == 12 and all(2 in z["ohne"] for z in zeilen) and all(z["mit"] == (1,) for z in zeilen)
     assert (min(z["mehr"] for z in zeilen), max(z["mehr"] for z in zeilen)) == (0.02, 1.83) and max(zeilen, key=lambda z: z["mehr"])["verteilung"] == 3
     assert ev.verdict_stuetz_wahl(zeilen)[1].startswith("Ohne Stützbedingung gewinnt in 12 von 12 Zellen Extreme Points mit Projektionen")
-    assert ("Ohne Bedingung gewinnt Extreme Points mit Projektionen nach Volumen (in allen 12 Zellen unter den Gewinnern), mit 80 % Stützfläche in allen 12 Zellen die Grundfläche. "
-            "Die Bedingung kostet im jeweils besten Verfahren **0,02 bis 1,83** Behälter über der Schranke (am meisten bei flachen Quadern)") in README
+    mehr = sorted(z["mehr"] for z in zeilen)
+    assert mehr[:2] == [0.02, 0.33] and [z["mehr"] for z in zeilen if z["verteilung"] == 2 and z["n"] == 20] == [0.02]
+    assert ("Ohne Bedingung gewinnt Extreme Points mit Projektionen nach Volumen (in allen 12 Zellen unter den Gewinnern), mit 80 % Stützfläche in allen 12 Zellen im Mittel die Grundfläche. "
+            "Der Schlüssel Grundfläche ist ohne Bedingung in der Karte nicht gemessen; in einer einmaligen Nachmessung außerhalb der Demo liegt dort das Volumen vorn. "
+            "Die Bedingung kostet im jeweils besten Verfahren **0,33 bis 1,83** Behälter über der Schranke (am meisten bei flachen Quadern); bei kleinen Quadern mit n = 20 sind es nur +0,02, nicht von null zu trennen. "
+            "Es sind Differenzen zweier getrennter Stichproben mit je 100 Instanzen") in README
 
 
 def test_der_gewinner_dreht_sich_nirgends():
     for b in C.BEREICHE:
         assert ev.abweichende_zellen(b) == []
-    assert "**der Gewinner dreht sich nirgends**; wo sich etwas dreht, sind es die Plätze dahinter" in README
+    assert ("In jedem Bereich gewinnt im gerundeten Mittel dasselbe Verfahren (oder gleichauf) in allen Zellen: **der Gewinner dreht sich nirgends**; wo sich etwas dreht, sind es die Plätze dahinter. "
+            "Die Wahl hängt in dieser Karte vom Bereich ab, nicht von den vier gemessenen Mischungen") in README
     assert ev.verdict_wechsel(1)[1].startswith("In allen 12 Zellen von 2D gehört MaxRects + Suche zu den Gewinnern: Der Gewinner dreht sich nirgends.")
 
 

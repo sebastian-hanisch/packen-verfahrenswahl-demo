@@ -120,8 +120,9 @@ def test_stuetz_wahl_verdikt():
     zeilen = [{"verteilung": v, "n": 20, "ohne": (2,), "mit": (1,), "bester_ohne": 0.5, "bester_mit": 0.5 + 0.1 * (v + 1), "mehr": round(0.1 * (v + 1), 2)} for v in range(4)]
     kind, text = ev.verdict_stuetz_wahl(zeilen)
     assert kind == "warning"
-    assert text == ("Ohne Stützbedingung gewinnt in 4 von 4 Zellen Extreme Points mit Projektionen (nach Volumen sortiert); mit 80 % Stützfläche gewinnt in 4 von 4 Zellen Extreme Points nach der Grundfläche. "
-                    "Die Bedingung kostet im jeweils besten Verfahren 0.10 bis 0.40 Behälter über der Schranke.")
+    assert text == ("Ohne Stützbedingung gewinnt in 4 von 4 Zellen Extreme Points mit Projektionen (nach Volumen sortiert); mit 80 % Stützfläche gewinnt im Mittel in 4 von 4 Zellen Extreme Points nach der Grundfläche. "
+                    "Die Bedingung kostet im jeweils besten Verfahren 0.10 bis 0.40 Behälter über der Schranke "
+                    "(Differenz zweier getrennter Stichproben; ein Wert nahe null ist nicht von null zu trennen).")
     zeilen[0] = {**zeilen[0], "ohne": (0, 1, 2), "mit": (0,)}
     text = ev.verdict_stuetz_wahl(zeilen)[1]
     assert "in 4 von 4 Zellen Extreme Points mit Projektionen" in text and "in 3 von 4 Zellen Extreme Points nach der Grundfläche" in text

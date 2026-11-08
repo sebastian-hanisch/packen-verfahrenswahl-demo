@@ -151,7 +151,7 @@ t2 = ["| Verfahren | mittlerer Regret | Anteil bester Instanzen | Mittel über S
 for m, name in enumerate(C.VERFAHREN[exp_b]):
     t2.append(f"| {name} | {u['regret'][m]:.2f} | {u['beste'][m]:.0f} % | {u['mittel'][m]:.2f} | {C.AUSWERTUNGEN[exp_b][m]} |")
 st.markdown("\n".join(t2))
-st.caption(f"Über alle {u['instanzen']} Instanzen des Bereichs. Regret: Behälter mehr als das instanzweise Beste der Verfahren dieses Bereichs.")
+st.caption(f"Über alle {u['instanzen']} Instanzen des Bereichs. Regret: Behälter mehr als das instanzweise Beste der Verfahren dieses Bereichs. Die Prozentwerte sind gerundet; 100 % kann knapp darunter liegen.")
 kind, text = verdict_regret(u)
 getattr(st, kind)(text)
 
@@ -172,7 +172,7 @@ for r in sz:
     mit = " / ".join(C.VERFAHREN[C.DREI_STUETZ][m] for m in r["mit"])
     t4.append(f"| {C.VERTEILUNG_KURZ[C.DREI][r['verteilung']]}, n = {r['n']} | {ohne} | {mit} | {r['mehr']:+.2f} |")
 st.markdown("\n".join(t4))
-st.caption("Je Zelle der 3D-Karten das Gewinnerverfahren ohne und mit Mindest-Stützfläche; Mehrbedarf = bestes Mittel über der Schranke mit Bedingung minus ohne. Die Verfahren der beiden Bereiche sind verschieden: dort Schichten, EP einfach, EP voll; hier drei Sortierschlüssel für EP voll.")
+st.caption("Je Zelle der 3D-Karten das Gewinnerverfahren ohne und mit Mindest-Stützfläche; Mehrbedarf = bestes Mittel über der Schranke mit Bedingung minus ohne. Die Verfahren der beiden Bereiche sind verschieden: dort Schichten, EP einfach, EP voll; hier drei Sortierschlüssel für EP voll auf eigenen Zufallsinstanzen (gleiche Verteilungen und Teilezahlen). Der Mehrbedarf ist die Differenz zweier getrennter Stichproben.")
 kind, text = verdict_stuetz_wahl(sz)
 getattr(st, kind)(text)
 

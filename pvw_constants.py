@@ -88,7 +88,7 @@ PRESET_HELP = {
     "1D: das Handbeispiel": "Zwölf Pakete: In Lieferreihenfolge brauchen Next, First und Best Fit sieben Behälter, größte zuerst (FFD und BFD) fünf, so viele wie das Optimum. Die Karte empfiehlt in 1D FFD oder BFD.",
     "2D: das Handbeispiel": "Zwölf Rechtecke: Das Regal braucht vier Behälter, Skyline, MaxRects und die Suche drei, das Optimum. Die Karte empfiehlt MaxRects mit Tausch-Suche; sie braucht dafür 200 Auswertungen statt einer.",
     "2D: mittlere Rechtecke, 40 Stück": "Vierzig mittlere Rechtecke, die Schranke ist sieben: Regal, Skyline und MaxRects brauchen acht Behälter, MaxRects mit Tausch-Suche sieben (die Schranke).",
-    "3D: flache Quader, 20 Stück": "Zwanzig flache Quader: Schichten brauchen zwei Behälter, Extreme Points ohne Projektionen drei, mit Projektionen zwei. Bei flachen Quadern sind Schichten besser als Extreme Points ohne Projektionen.",
+    "3D: flache Quader, 20 Stück": "Zwanzig flache Quader: Schichten brauchen zwei Behälter, Extreme Points ohne Projektionen drei, mit Projektionen zwei. Bei diesen zwanzig flachen Quadern sind Schichten besser als Extreme Points ohne Projektionen (auf der Karte nur bei n = 20 so).",
     "3D mit Stützfläche: flache Quader, 40 Stück": "Vierzig flache Quader mit 80 % Mindest-Stützfläche: Mit der Grundfläche als Schlüssel fünf Behälter, mit dem Volumen acht, mit der Höhe neun. Mit der Bedingung gewinnt die Grundfläche.",
 }
 

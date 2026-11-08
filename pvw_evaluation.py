@@ -270,5 +270,6 @@ def verdict_stuetz_wahl(zeilen: list) -> tuple[str, str]:
     ohne_ep = sum(1 for z in zeilen if 2 in z["ohne"])
     mit_grund = sum(1 for z in zeilen if z["mit"] == (1,))
     mehr = [z["mehr"] for z in zeilen]
-    return "warning", (f"Ohne Stützbedingung gewinnt in {ohne_ep} von {len(zeilen)} Zellen Extreme Points mit Projektionen (nach Volumen sortiert); mit 80 % Stützfläche gewinnt in {mit_grund} von {len(zeilen)} Zellen "
-                       f"Extreme Points nach der Grundfläche. Die Bedingung kostet im jeweils besten Verfahren {min(mehr):.2f} bis {max(mehr):.2f} Behälter über der Schranke.")
+    return "warning", (f"Ohne Stützbedingung gewinnt in {ohne_ep} von {len(zeilen)} Zellen Extreme Points mit Projektionen (nach Volumen sortiert); mit 80 % Stützfläche gewinnt im Mittel in {mit_grund} von {len(zeilen)} Zellen "
+                       f"Extreme Points nach der Grundfläche. Die Bedingung kostet im jeweils besten Verfahren {min(mehr):.2f} bis {max(mehr):.2f} Behälter über der Schranke "
+                       "(Differenz zweier getrennter Stichproben; ein Wert nahe null ist nicht von null zu trennen).")
