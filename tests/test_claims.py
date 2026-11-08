@@ -182,7 +182,7 @@ def test_die_stuetzbedingung_aendert_die_wahl():
     mehr = sorted(z["mehr"] for z in zeilen)
     assert mehr[:2] == [0.02, 0.33] and [z["mehr"] for z in zeilen if z["verteilung"] == 2 and z["n"] == 20] == [0.02]
     assert ("Ohne Bedingung gewinnt Extreme Points mit Projektionen nach Volumen (in allen 12 Zellen unter den Gewinnern), mit 80 % Stützfläche in allen 12 Zellen im Mittel die Grundfläche. "
-            "Der Schlüssel Grundfläche ist ohne Bedingung in der Karte nicht gemessen; in einer einmaligen Nachmessung außerhalb der Demo liegt dort das Volumen vorn. "
+            "Der Schlüssel Grundfläche ist ohne Bedingung in der Karte nicht gemessen. "
             "Die Bedingung kostet im jeweils besten Verfahren **0,33 bis 1,83** Behälter über der Schranke (am meisten bei flachen Quadern); bei kleinen Quadern mit n = 20 sind es nur +0,02, nicht von null zu trennen. "
             "Es sind Differenzen zweier getrennter Stichproben mit je 100 Instanzen") in README
 
